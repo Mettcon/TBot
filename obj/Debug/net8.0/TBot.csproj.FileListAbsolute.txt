@@ -1,0 +1,15 @@
+C:\Users\Mettcon\source\repos\TBot\bin\Debug\net8.0\TBot.exe
+C:\Users\Mettcon\source\repos\TBot\bin\Debug\net8.0\TBot.deps.json
+C:\Users\Mettcon\source\repos\TBot\bin\Debug\net8.0\TBot.runtimeconfig.json
+C:\Users\Mettcon\source\repos\TBot\bin\Debug\net8.0\TBot.dll
+C:\Users\Mettcon\source\repos\TBot\bin\Debug\net8.0\TBot.pdb
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\TBot.csproj.AssemblyReference.cache
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\TBot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\TBot.AssemblyInfoInputs.cache
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\TBot.AssemblyInfo.cs
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\TBot.csproj.CoreCompileInputs.cache
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\TBot.dll
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\refint\TBot.dll
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\TBot.pdb
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\TBot.genruntimeconfig.cache
+C:\Users\Mettcon\source\repos\TBot\obj\Debug\net8.0\ref\TBot.dll
