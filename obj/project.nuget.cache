@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "fYa/lwZRDJDvf2STtaNokuN2F9Lr/3Fp20OJ3Fs/MQMlZStQbjcXwLm9QeNGF85t6UJDqyIFq4Jr/C37VHFQ0g==",
+  "success": true,
+  "projectFilePath": "c:\\Users\\Mettcon\\source\\repos\\TBot\\TBot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Mettcon\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0-preview.3.23174.8\\microsoft.extensions.configuration.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\Mettcon\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0-preview.3.23174.8\\microsoft.extensions.configuration.abstractions.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\Mettcon\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0-preview.3.23174.8\\microsoft.extensions.primitives.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\Mettcon\\.nuget\\packages\\system.commandline\\2.0.0-beta4.22272.1\\system.commandline.2.0.0-beta4.22272.1.nupkg.sha512"
+  ],
+  "logs": []
+}
