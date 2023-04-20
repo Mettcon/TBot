@@ -2,17 +2,23 @@ using System.Net.Sockets;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
+// should this be a singleton?
+namespace TBot;
 sealed class Bot
 {
-    // Should I read this @ compile Team via File?
-    // 
-    const int PORT = 6697;
+    // Should I read this via config File?
+    // probably runtime? maybe compile time?
+
+    // I stick to unencrypted until I figure out why the cert gets rejected
+    // ssl Port is 6697
+
+    const int PORT = 6667;
     const string HOST = "irc.twitch.tv";
     StreamReader? reader;
     StreamWriter? writer;
     readonly string nick;
     readonly string password;
-    readonly TaskCompletionSource<int> connected = new();
+    TaskCompletionSource<int> connected = new();
 
     public Bot(string nick, string password)
     {
@@ -20,30 +26,28 @@ sealed class Bot
         this.password = password;
     }
 
-    async internal void Start()
+    async internal Task Connect()
     {
         //? Maybe put the connection in the constructor?
         TcpClient client = new();
         await client.ConnectAsync(HOST, PORT);
-
-        SslStream stream = new(
-            client.GetStream(),
-            false,
-            ValidateServerCertificate,
-            null);
-
-        await stream.AuthenticateAsClientAsync(HOST);
+        var stream = client.GetStream();
         reader = new(stream);
         writer = new(stream) { NewLine = "\r\n", AutoFlush = true };
 
         await writer.WriteLineAsync("CAP REQ :twitch.tv/commands twitch.tv/tags twitch.tv/membership");
 
+        var CapResponse = await reader.ReadLineAsync();
+        Console.WriteLine(CapResponse);
+
         //Send the authentication message
-        // send login information
         await writer.WriteLineAsync($"PASS {password}");
         await writer.WriteLineAsync($"NICK {nick}");
         writer.Flush();
+    }
 
+    async internal Task Start()
+    {
         while (true)
         {
             string? line = await reader.ReadLineAsync();
@@ -65,22 +69,11 @@ sealed class Bot
                 break;
             }
         }
+    }
 
-        async internal void Join(string channel)
-        {
-            await writer?.WriteLineAsync($"JOIN #{channel}");
-            writer.Flush();
-        }
-
-        //Outside of start we need to define ValidateServerCertificate
-        bool ValidateServerCertificate(
-            object sender,
-            X509Certificate certificate,
-            X509Chain chain,
-            SslPolicyErrors sslPolicyErrors
-            )
-        {
-            return sslPolicyErrors == SslPolicyErrors.None;
-        }
+    internal void Join(string channel)
+    {
+        writer.WriteLine($"JOIN #{channel}");
+        writer.Flush();
     }
 }
