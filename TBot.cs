@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
@@ -38,7 +39,9 @@ sealed class Bot
         await writer.WriteLineAsync("CAP REQ :twitch.tv/commands twitch.tv/tags twitch.tv/membership");
 
         var CapResponse = await reader.ReadLineAsync();
-        Console.WriteLine(CapResponse);
+
+        if (CapResponse != ":tmi.twitch.tv CAP * ACK :twitch.tv/commands twitch.tv/tags twitch.tv/membership")
+            throw new Exception("Could not request capabilites");
 
         //Send the authentication message
         await writer.WriteLineAsync($"PASS {password}");
@@ -50,27 +53,37 @@ sealed class Bot
     {
         while (true)
         {
-            string? line = await reader.ReadLineAsync();
-            Console.WriteLine(line);
-            if (line == null)
+            string? message = await reader.ReadLineAsync();
+            foreach (var entry in message.Split("\r\n"))
             {
-                break;
-            }
+                Console.WriteLine(entry);
 
-            if (line.StartsWith("PING"))
-            {
-                await writer.WriteLineAsync("PONG");
-                writer.Flush();
-            }
+                ParseMessage(entry);
 
-            if (line.StartsWith("004"))
-            {
-                connected.TrySetResult(0);
-                break;
             }
         }
     }
 
+    internal async void ParseMessage(string line)
+    {
+        string[] message = line.Split(' ');
+
+        if (message[0].StartsWith("PING"))
+        {
+            await writer.WriteLineAsync("PONG " + message[1]);
+        }
+
+        else if (message[0].StartsWith('@'))
+        {
+            switch (message[2])
+            {
+                case "PRIVMSG":
+                    await writer.WriteLineAsync("PRIVMSG #mettcon :thx").ConfigureAwait(false);
+                    break;
+            }
+        }
+        
+    }
     internal void Join(string channel)
     {
         writer.WriteLine($"JOIN #{channel}");

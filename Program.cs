@@ -1,9 +1,17 @@
 using System.CommandLine;
+using Microsoft.Extensions.Configuration;
 namespace TBot;
-static class Program
+class Program
 {
     static async Task Main(string[] args)
     {
+
+        string botUsername = string.Empty;
+        string password = string.Empty;
+        string channel = string.Empty;
+
+// those preprocessors help me to hide the secret for debug starts but while debugging the auth token is still exposed
+#if !DEBUG
         Option<string> userOption = new(name: "--user", description: "specifies the username of your bot")
         {
             IsRequired = true
@@ -25,10 +33,6 @@ static class Program
             channelOption
         };
 
-        string botUsername = string.Empty;
-        string password = string.Empty;
-        string channel = string.Empty;
-
         Command.SetHandler(
             (user, token, channelToJoin) =>
             {
@@ -39,7 +43,14 @@ static class Program
         );
 
         await Command.InvokeAsync(args);
+#elif DEBUG
+        // read token from user-secrets
+        IConfiguration config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
 
+        botUsername = "mettcon";
+        password =  config["token"];
+        channel = "mettcon";
+#endif
         // Even when the Options are requiered the code below gets executed.
         // even when you just call "-h" so we have to make sure we break here,
         // when they are not set.
